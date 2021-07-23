@@ -13,7 +13,10 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.the_akshay.dove.addapter.FragmentsAddpter;
 import com.the_akshay.dove.databinding.ActivityMainBinding;
+import com.the_akshay.dove.databinding.ActivitySignInBinding;
+import com.the_akshay.dove.databinding.ActivitySignUpBinding;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,27 +26,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        Toast.makeText( MainActivity.this, "MainActivity Oncreate", Toast.LENGTH_SHORT).show();
-        binding=ActivityMainBinding.inflate(getLayoutInflater());
+        Toast.makeText(MainActivity.this, "MainActivity Oncreate", Toast.LENGTH_SHORT).show();
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
 
-        auth=FirebaseAuth.getInstance();
+        auth = FirebaseAuth.getInstance();
         setContentView(binding.getRoot());
+        getSupportActionBar().hide();
 
-        binding.signin.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        startActivity(new Intent(MainActivity.this, SignInActivity.class));
-                    }
-                }
-        );
-        binding.MainBtnTest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, SignUpActivity.class));
-                Toast.makeText(MainActivity.this,"Whalla it is working",Toast.LENGTH_LONG).show();
-            }
-        });
+        binding.mainViewpager.setAdapter(new FragmentsAddpter(getSupportFragmentManager()));
+        binding.mainTab.setupWithViewPager(binding.mainViewpager);
+
+
     }
 
     @Override
@@ -52,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
         inflater.inflate(R.menu.menu,menu);
         return super.onCreateOptionsMenu(menu);
     }
+
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
